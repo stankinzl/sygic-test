@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainNavGraph"
+    app:startDestination="@id/catListNestedGraph">
+
+    <navigation android:id="@+id/catListNestedGraph"
+        app:startDestination="@id/catListLandingFragment">
+        <fragment
+            android:id="@+id/catListLandingFragment"
+            android:name="com.kinzlstanislav.sigyctest.app.features.catlist.CatListLandingFragment"
+            android:label="CatListLandingFragment"
+            tools:layout="@layout/fragment_empty" />
+        <fragment
+            android:id="@+id/catListLoadingFragment"
+            android:name="com.kinzlstanislav.sigyctest.app.features.common.CommonLoadingFragment"
+            android:label="CommonLoadingFragment"
+            tools:layout="@layout/fragment_generic_loading" />
+        <fragment
+            android:id="@+id/catListFragment"
+            android:name="com.kinzlstanislav.sigyctest.app.features.catlist.CatListFragment"
+            android:label="CatListFragment"
+            tools:layout="@layout/fragment_cat_list" />
+        <fragment
+            android:id="@+id/catListCenterTextFragment"
+            android:name="com.kinzlstanislav.sigyctest.app.features.common.CommonCenterTextFragment"
+            android:label="CommonCenterTextFragment"
+            tools:layout="@layout/fragment_generic_center_text">
+            <argument
+                android:name="text"
+                app:argType="string" />
+        </fragment>
+        <action
+            android:id="@+id/actionCatListGlobalToCenterTextFragment"
+            app:destination="@id/catListCenterTextFragment"
+            app:enterAnim="@anim/tc_fragment_fade_enter"
+            app:exitAnim="@anim/tc_fragment_fade_exit" />
+    </navigation>
+</navigation>
