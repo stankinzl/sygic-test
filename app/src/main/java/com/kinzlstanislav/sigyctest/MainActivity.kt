@@ -2,7 +2,6 @@ package com.kinzlstanislav.sigyctest
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.kinzlstanislav.sigyctest.core.nestednavigation.NestedNavigationRouter
 import org.koin.android.ext.android.inject

@@ -47,8 +47,10 @@ class NestedNavigationRouter {
         useDefaultNavigationOptions: Boolean = true
     ) {
         try {
-            val navController = requireNotNull(currentNavController)
+            Timber.d("LOLO: Attempting navigation")
             doWhenIdle {
+                val navController = requireNotNull(currentNavController)
+                Timber.d("LOLO: Didnt idle")
                 if (useDefaultNavigationOptions) {
                     navController.navigate(directions, defaultNestedNavigationOptions)
                 } else {
@@ -69,8 +71,8 @@ class NestedNavigationRouter {
         skipIfIsAlreadyInDestination: Boolean = true
     ) {
         try {
-            val navController = requireNotNull(currentNavController)
             doWhenIdle {
+                val navController = requireNotNull(currentNavController)
                 if (skipIfIsAlreadyInDestination) {
                     if (navController.currentDestination?.id == resId) return@doWhenIdle
                 }
@@ -88,7 +90,7 @@ class NestedNavigationRouter {
         }
     }
 
-    fun <N : NestedNavigation> registerNestedNavigation(
+    fun <N : NestedNavigation> registerNestedNavigationFlow(
         nestedGraphViewModel: BaseNestedGraphViewModel<N>,
         onCollected: (N) -> Unit
     ) {

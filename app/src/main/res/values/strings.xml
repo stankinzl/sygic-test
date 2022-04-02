@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ComposeApp</string>
+    <string name="no_cats">No cats :(</string>
+    <string name="error_server">Server Error</string>
+    <string name="error_unknown">Unknown problem</string>
+    <string name="error_no_internet">Not connected to internet</string>
 </resources>

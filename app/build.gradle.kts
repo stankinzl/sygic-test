@@ -6,7 +6,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.42.0"
     id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs")
-
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 // Disabling the generating of kotlin synthetics as we use ViewBinding
@@ -31,6 +31,7 @@ android {
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "API_BASE_URL", project.properties["BASE_URL_ALL_ENV"].toString())
+        buildConfigField("String", "CAT_API_KEY", project.properties["CAT_API_KEY"].toString())
         buildConfigField("BASE_APP_ID", baseAppId)
     }
     compileOptions {
@@ -135,6 +136,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")*/
 
     //_________OTHER Libs Dependencies_____________________________________________
+    //Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     // Workers
     implementation("androidx.work:work-runtime-ktx:2.7.1")
     // Lifecycle
@@ -155,12 +158,14 @@ dependencies {
     kapt("androidx.room:room-compiler:2.4.2")
     implementation("androidx.room:room-ktx:2.4.2")
     implementation("androidx.room:room-guava:2.4.2")
+    implementation("io.github.kaustubhpatange:autobindings-room:1.1-beta05") // Type converter annotations
+    kapt("io.github.kaustubhpatange:autobindings-compiler:1.1-beta05")
     // Proto
     implementation("androidx.datastore:datastore:1.0.0")
     // Koin
     implementation("io.insert-koin:koin-core:3.2.0-beta-1")
     implementation("io.insert-koin:koin-android:3.2.0-beta-1")
-    implementation("io.insert-koin:koin-androidx-compose:3.2.0-beta-1")
+//    implementation("io.insert-koin:koin-androidx-compose:3.2.0-beta-1")
     implementation("io.insert-koin:koin-androidx-navigation:3.2.0-beta-1")
     implementation("io.insert-koin:koin-annotations:1.0.0-beta-1") // https://medium.com/koin-developers/koin-annotations-c06c2b876ebe
     ksp("io.insert-koin:koin-ksp-compiler:1.0.0-beta-1")
@@ -168,7 +173,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.7.2")
     implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
     implementation("com.squareup.retrofit2:converter-moshi:2.7.2")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.12.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.squareup.moshi:moshi-adapters:1.8.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
