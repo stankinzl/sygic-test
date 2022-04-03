@@ -17,5 +17,6 @@ data class CatResponse(
 @kotlinx.serialization.Serializable
 @AutoGenerateListConverter(using = ConverterType.KOTLIN_SERIALIZATION)
 data class CatBreedResponse(
-    val name: String? = null
+    val name: String? = null,
+    val origin: String? = null
 )

@@ -92,12 +92,12 @@ class NestedNavigationRouter {
 
     fun <N : NestedNavigation> registerNestedNavigationFlow(
         nestedGraphViewModel: BaseNestedGraphViewModel<N>,
-        onCollected: (N) -> Unit
+        onCollected: NestedNavigationRouter.(N) -> Unit
     ) {
         processLifecycleOwner.lifecycleScope.launch {
             processLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 nestedGraphViewModel.nestedNavigationFlow.collectLatest {
-                    onCollected.invoke(it)
+                    onCollected.invoke(this@NestedNavigationRouter, it)
                 }
                 nestedGraphViewModel.onClearedFlow.collectLatest {
                     if (it) {

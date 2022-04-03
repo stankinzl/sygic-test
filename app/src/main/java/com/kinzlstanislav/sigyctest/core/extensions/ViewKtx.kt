@@ -90,10 +90,12 @@ fun TextView.setOnImeDoneClickListener(onClick: () -> Unit) {
     }
 }
 
-fun TextView.setTextOrGoneIfEmpty(text: String) {
-    isGone = if (text.isEmpty()) true else {
+fun TextView.setTextOrGoneIfEmpty(text: String?) {
+    isGone = if (text?.isNotEmpty() == true) {
         setText(text)
         false
+    } else {
+        true
     }
 }
 

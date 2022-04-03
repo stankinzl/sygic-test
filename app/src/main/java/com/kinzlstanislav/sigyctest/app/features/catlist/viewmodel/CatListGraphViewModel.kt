@@ -7,6 +7,7 @@ import com.kinzlstanislav.sigyctest.app.network.ApiService
 import com.kinzlstanislav.sigyctest.app.network.data.CatResponse
 import com.kinzlstanislav.sigyctest.core.extensions.coroutine
 import com.kinzlstanislav.sigyctest.core.extensions.isConnectionError
+import com.kinzlstanislav.sigyctest.core.extensions.uiCoroutine
 import com.kinzlstanislav.sigyctest.core.helpers.NetworkHelper
 import com.kinzlstanislav.sigyctest.core.nestednavigation.BaseNestedGraphViewModel
 import com.kinzlstanislav.sigyctest.core.nestednavigation.NestedNavigation
@@ -38,16 +39,9 @@ class CatListGraphViewModel(
     }
 
     init {
-        coroutine {
-            catsDao.nukeTable() // Nuking cats on every launch as to show loading every time.
-            catsFlow.collectLatest {
-                if (it.isEmpty()) {
-                    _nestedNavigationFlow.emit(GenericLoading)
-                }
-                cancel()
-            }
-        }.invokeOnCompletion {
-            fetchNextCatPage() // Fetching first page
+        uiCoroutine { // Nuking tables works only on Main
+            catsDao.nukeTable()
+            fetchNextCatPage()
         }
     }
 
@@ -72,21 +66,19 @@ class CatListGraphViewModel(
                 if (!networkHelper.isDeviceConnectedToInternet()) {
                     throw ConnectException()
                 }
-                supervisorScope {
-                    mutableListOf<Deferred<List<CatResponse?>?>>().apply {
-                        for (p in 1 until upcomingPage) {
-                            add(async {
-                                try {
-                                    apiService.fetchCats(page = p)
-                                } catch (e: Exception) {
-                                    Timber.e(e)
-                                    null
-                                }
-                            })
-                        }
-                    }.awaitAll().filterNotNull().flatten().filterNotNull().let { catsResponse ->
-                        catsDao.insertOrUpdate(catsResponse)
+                mutableListOf<Deferred<List<CatResponse?>?>>().apply {
+                    for (p in 1 until upcomingPage) {
+                        add(async {
+                            try {
+                                apiService.fetchCats(page = p)
+                            } catch (e: Exception) {
+                                Timber.e(e)
+                                null
+                            }
+                        })
                     }
+                }.awaitAll().filterNotNull().flatten().filterNotNull().let { catsResponse ->
+                    catsDao.insertOrUpdate(catsResponse)
                 }
             } catch (e: Exception) {
                 Timber.e(e)

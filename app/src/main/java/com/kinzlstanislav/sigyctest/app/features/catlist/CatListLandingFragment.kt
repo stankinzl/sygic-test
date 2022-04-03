@@ -19,21 +19,19 @@ class CatListLandingFragment : BaseAppFragment(R.layout.fragment_empty) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         nestedNavigationRouter.registerNestedNavigationFlow(graphViewModel) {
-            with(nestedNavigationRouter) {
-                when (it) {
-                    GenericLoading -> nestedNavigate(R.id.catListLoadingFragment)
-                    NestedNavigationNoCats, GenericServerError,
-                    GenericError, GenericNoConnectionError -> {
-                        val text = when(it) {
-                            NestedNavigationNoCats -> getString(R.string.no_cats)
-                            GenericServerError -> getString(R.string.error_server)
-                            GenericError -> getString(R.string.error_unknown)
-                            else -> getString(R.string.error_no_internet)
-                        }
-                        nestedNavigate(actionCatListGlobalToCenterTextFragment(text))
+            when (it) {
+                GenericLoading -> nestedNavigate(R.id.catListLoadingFragment)
+                NestedNavigationNoCats, GenericServerError,
+                GenericError, GenericNoConnectionError -> {
+                    val text = when (it) {
+                        NestedNavigationNoCats -> getString(R.string.no_cats)
+                        GenericServerError -> getString(R.string.error_server)
+                        GenericError -> getString(R.string.error_unknown)
+                        else -> getString(R.string.error_no_internet)
                     }
-                    GenericContent -> nestedNavigate(R.id.catListFragment)
+                    nestedNavigate(actionCatListGlobalToCenterTextFragment(text))
                 }
+                GenericContent -> nestedNavigate(R.id.catListFragment)
             }
         }
     }

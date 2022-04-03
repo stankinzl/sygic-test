@@ -23,7 +23,7 @@ android {
     val baseAppId = "com.kinzlstanislav.sigyctest"
     defaultConfig {
         applicationId = baseAppId
-        minSdk = 21
+        minSdk = 23
         targetSdk = 31
         versionCode = 1
         versionName = "1.0.0"
