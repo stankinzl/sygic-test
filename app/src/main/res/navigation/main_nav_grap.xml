@@ -36,5 +36,20 @@
             app:destination="@id/catListCenterTextFragment"
             app:enterAnim="@anim/tc_fragment_fade_enter"
             app:exitAnim="@anim/tc_fragment_fade_exit" />
+
+        <dialog
+            android:id="@+id/catImageDetailDialogFragment"
+            tools:layout="@layout/fragment_cat_image_detail_dialog"
+            android:name="com.kinzlstanislav.sigyctest.app.features.catlist.CatImageDetailDialogFragment"
+            android:label="CatImageDetailDialogFragment" >
+            <argument
+                android:name="imageUrl"
+                app:argType="string" />
+        </dialog>
+        <action
+            android:id="@+id/actionGlobalToCatImageDetailDialogFragment"
+            app:destination="@id/catImageDetailDialogFragment"
+            app:enterAnim="@anim/tc_fragment_fade_enter"
+            app:exitAnim="@anim/tc_fragment_fade_exit" />
     </navigation>
 </navigation>

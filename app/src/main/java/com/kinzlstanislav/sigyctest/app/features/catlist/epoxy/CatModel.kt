@@ -19,6 +19,9 @@ abstract class CatModel : BaseEpoxyModel() {
     @EpoxyAttribute
     lateinit var cat: Cat
 
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
+    lateinit var onClick: (String) -> Unit
+
     override fun bind(holder: ViewBindingHolder) {
         super.bind(holder)
         with(ItemCatBinding.bind(holder.view)) {
@@ -32,6 +35,9 @@ abstract class CatModel : BaseEpoxyModel() {
                 .error(R.drawable.ic_app_icon)
                 .fallback(R.drawable.ic_app_icon)
                 .into(catItemImageView)
+            catCardLayout.setOnClickListener {
+                onClick(cat.url)
+            }
         }
     }
 }

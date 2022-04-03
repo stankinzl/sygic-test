@@ -10,7 +10,8 @@ import com.kinzlstanislav.sigyctest.core.epoxy.loader
 
 class CatListController(
     private val context: Context,
-    private val onLoaderBecameVisible: () -> Unit
+    private val onLoaderBecameVisible: () -> Unit,
+    private val onCatClickListener: (String) -> Unit
 ) : AsyncEpoxyController() {
 
     var data: List<Cat> = emptyList()
@@ -29,6 +30,9 @@ class CatListController(
             cat {
                 id(it.databaseKey)
                 cat(it)
+                onClick {
+                    this@CatListController.onCatClickListener.invoke(it)
+                }
             }
         }
         loader {

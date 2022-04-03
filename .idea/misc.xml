@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/ic_creative_tail_halloween_black_cat.xml" value="0.1795" />
         <entry key="app/src/main/res/drawable/increase_size_state_list_animator.xml" value="0.1795" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20572916666666666" />
+        <entry key="app/src/main/res/layout/fragment_cat_image_detail_dialog.xml" value="0.3880208333333333" />
         <entry key="app/src/main/res/layout/fragment_cat_list.xml" value="0.3546875" />
         <entry key="app/src/main/res/layout/fragment_start.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/item_cat.xml" value="0.33305104573567706" />
