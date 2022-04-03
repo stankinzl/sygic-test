@@ -17,6 +17,7 @@ class CatListFragment : BaseAppFragment(R.layout.fragment_cat_list) {
     private companion object {
         const val PERCENT_OF_LOADER_VIEW_TO_START_PAGING = 10
     }
+
     private val binding by viewBinding(FragmentCatListBinding::bind)
     private val graphViewModel by koinNavGraphViewModel<CatListGraphViewModel>(R.id.catListNestedGraph)
 
@@ -29,10 +30,11 @@ class CatListFragment : BaseAppFragment(R.layout.fragment_cat_list) {
             }
         )
         (layoutManager as GridLayoutManager).spanSizeLookup = listController.spanSizeLookup
-        setController(listController)
         EpoxyVisibilityTracker().apply {
             partialImpressionThresholdPercentage = PERCENT_OF_LOADER_VIEW_TO_START_PAGING
         }.attach(this)
+        setController(listController)
+
         collectFlow(graphViewModel.catsFlow, viewLifecycleOwner) {
             listController.data = it
         }

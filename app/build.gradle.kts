@@ -170,6 +170,7 @@ dependencies {
     implementation("io.insert-koin:koin-annotations:1.0.0-beta-1") // https://medium.com/koin-developers/koin-annotations-c06c2b876ebe
     ksp("io.insert-koin:koin-ksp-compiler:1.0.0-beta-1")
     // Network
+    implementation("com.github.bumptech.glide:glide:4.9.0")
     implementation("com.squareup.retrofit2:retrofit:2.7.2")
     implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
     implementation("com.squareup.retrofit2:converter-moshi:2.7.2")
