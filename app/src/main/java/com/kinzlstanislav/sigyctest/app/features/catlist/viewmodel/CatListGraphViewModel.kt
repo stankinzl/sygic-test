@@ -87,8 +87,11 @@ class CatListGraphViewModel(
         }
     }
 
+    private var nextCatPageFetchingJob: Job? = null
+
     fun fetchNextCatPage() {
-        coroutine {
+        if (nextCatPageFetchingJob?.isActive == true) return // Don't fetch another page while one is being fetched
+        nextCatPageFetchingJob = coroutine {
             try {
                 if (!networkHelper.isDeviceConnectedToInternet()) {
                     throw ConnectException()
