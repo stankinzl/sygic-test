@@ -24,30 +24,45 @@ class CatListFragment : BaseAppFragment(R.layout.fragment_cat_list) {
     private val graphViewModel by koinNavGraphViewModel<CatListGraphViewModel>(R.id.catListNestedGraph)
 
     @SuppressLint("Range")
-    override fun onFragmentViewCreated(): Unit = with(binding.catList) {
-        val listController = CatListController(
-            requireContext(),
-            onLoaderBecameVisible = {
-                graphViewModel.fetchNextCatPage()
-            },
-            onCatClickListener = { imageUrl ->
-                navigate(actionGlobalToCatImageDetailDialogFragment(imageUrl))
-            }
-        )
-        (layoutManager as GridLayoutManager).spanSizeLookup = listController.spanSizeLookup
-        EpoxyVisibilityTracker().apply {
-            partialImpressionThresholdPercentage = PERCENT_OF_LOADER_VIEW_TO_START_PAGING
-        }.attach(this)
-        setController(listController)
+    override fun onFragmentViewCreated(): Unit = with(binding) {
+        // setup list
+        with(catList) {
+            val listController = CatListController(
+                requireContext(),
+                onLoaderBecameVisible = {
+                    graphViewModel.fetchNextCatPage()
+                },
+                onCatClickListener = { imageUrl ->
+                    navigate(actionGlobalToCatImageDetailDialogFragment(imageUrl))
+                }
+            )
+            (layoutManager as GridLayoutManager).spanSizeLookup = listController.spanSizeLookup
+            EpoxyVisibilityTracker().apply {
+                partialImpressionThresholdPercentage = PERCENT_OF_LOADER_VIEW_TO_START_PAGING
+            }.attach(this)
+            setController(listController)
 
-        collectFlow(graphViewModel.catsFlow, viewLifecycleOwner) {
-            listController.data = it
+            collectFlow(graphViewModel.catsFlow, viewLifecycleOwner) {
+                listController.data = it
+            }
         }
-        scaleX = 0.8f
-        scaleY = 0.8f
-        animate()
-            .scaleX(1f)
-            .scaleY(1f)
-            .start()
+
+        // setup swipe to refresh
+        with(catsSwipeContainer) {
+            setOnRefreshListener {
+                graphViewModel.refreshAllCatPages()
+            }
+
+            collectFlow(graphViewModel.catsRefreshingFlow, viewLifecycleOwner) {
+                isRefreshing = it
+            }
+
+            scaleX = 0.8f
+            scaleY = 0.8f
+            animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .start()
+        }
     }
 }

@@ -13,10 +13,7 @@ import com.kinzlstanislav.sigyctest.core.nestednavigation.BaseNestedGraphViewMod
 import com.kinzlstanislav.sigyctest.core.nestednavigation.NestedNavigation
 import com.kinzlstanislav.sigyctest.core.nestednavigation.NestedNavigation.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import org.koin.android.annotation.KoinViewModel
 import retrofit2.HttpException
 import timber.log.Timber
@@ -37,6 +34,9 @@ class CatListGraphViewModel(
     val catsFlow: Flow<List<Cat>> = catsDao.observeCatEntries().distinctUntilChanged().map {
         catsMapper.map(from = it)
     }
+    @Suppress("PropertyName")
+    private val _catsRefreshingFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val catsRefreshingFlow: Flow<Boolean> = _catsRefreshingFlow
 
     init {
         uiCoroutine { // Nuking tables works only on Main
@@ -63,6 +63,7 @@ class CatListGraphViewModel(
     fun refreshAllCatPages() {
         coroutine {
             try {
+                _catsRefreshingFlow.emit(true)
                 if (!networkHelper.isDeviceConnectedToInternet()) {
                     throw ConnectException()
                 }
@@ -83,6 +84,8 @@ class CatListGraphViewModel(
             } catch (e: Exception) {
                 Timber.e(e)
                 handleError(e)
+            } finally {
+                _catsRefreshingFlow.emit(false)
             }
         }
     }

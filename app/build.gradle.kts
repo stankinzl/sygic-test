@@ -113,6 +113,8 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     implementation("com.google.android:flexbox:2.0.1")
     implementation("androidx.fragment:fragment-ktx:1.4.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
     // Epoxy
     implementation("com.airbnb.android:epoxy:4.6.3")
     kapt("com.airbnb.android:epoxy-processor:4.6.3")
