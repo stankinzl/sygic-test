@@ -47,10 +47,8 @@ class NestedNavigationRouter {
         useDefaultNavigationOptions: Boolean = true
     ) {
         try {
-            Timber.d("LOLO: Attempting navigation")
             doWhenIdle {
                 val navController = requireNotNull(currentNavController)
-                Timber.d("LOLO: Didnt idle")
                 if (useDefaultNavigationOptions) {
                     navController.navigate(directions, defaultNestedNavigationOptions)
                 } else {

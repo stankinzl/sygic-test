@@ -7,14 +7,4 @@ import org.koin.android.annotation.KoinViewModel
 import timber.log.Timber
 
 @KoinViewModel
-class MainViewModel(
-    private val catsDao: CatsDao
-) : ViewModel() {
-
-    fun flush() {
-        coroutine {
-            catsDao.nukeTable()
-            Timber.d("LOLO: Flushed")
-        }
-    }
-}
+class MainViewModel : ViewModel()
