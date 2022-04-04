@@ -25,12 +25,14 @@ abstract class CatModel : BaseEpoxyModel() {
     override fun bind(holder: ViewBindingHolder) {
         super.bind(holder)
         with(ItemCatBinding.bind(holder.view)) {
-            catItemOriginTextView.setTextOrGoneIfEmpty(cat.origin)
             catItemSpeciesNameTextView.setTextOrGoneIfEmpty(cat.breedName)
+            catItemOriginTextView.setTextOrGoneIfEmpty(
+                holder.view.context.getString(R.string.cats_origin_label_template, cat.origin)
+            )
             Glide.with(this.root)
                 .load(cat.url)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .centerCrop() //4
+                .centerCrop()
                 .placeholder(R.drawable.ic_app_icon)
                 .error(R.drawable.ic_app_icon)
                 .fallback(R.drawable.ic_app_icon)
