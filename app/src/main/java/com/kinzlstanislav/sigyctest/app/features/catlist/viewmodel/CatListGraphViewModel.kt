@@ -39,8 +39,8 @@ class CatListGraphViewModel(
     val catsRefreshingFlow: Flow<Boolean> = _catsRefreshingFlow
 
     init {
-        uiCoroutine { // Nuking tables works only on Main
-            catsDao.nukeTable()
+        uiCoroutine { // Nuking tables while blocking thread works only on Main
+            catsDao.nukeTable() // Doing this on every app launch just to restart the lifecycle of the app and show loading
             fetchNextCatPage()
         }
     }
